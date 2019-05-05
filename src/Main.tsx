@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
 export const Main: React.FC = () => {
   // Set offset, this is being used instead of setState.
   // Implements https://reactjs.org/docs/hooks-overview.html
