@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import SimpleExpansionPanel from './SimpleExpansionPanel';
+
 export const Main: React.FC = () => {
   // Set offset, this is being used instead of setState.
   // Implements https://reactjs.org/docs/hooks-overview.html
@@ -35,12 +37,20 @@ export const Main: React.FC = () => {
     }
     fetchMyApi();
   }, [offset]);
+
+  if (data) {
+    var collapsiblePanels = data.map((location: any, i: number) => {
+      return <SimpleExpansionPanel props={location} key={i} />;
+    });
+  }
+
   return (
     <div className="App">
       Offset: {offset}
       <button onClick={addOffset}>Add Offset</button>
       <button onClick={subtractOffset}>Subtract Offset</button>
-      <p>{data ? JSON.stringify(data) : 'something went wrong'}</p>
+      {/* <p>{data ? JSON.stringify(data) : 'something went wrong'}</p> */}
+      <div>{collapsiblePanels}</div>
     </div>
   );
 };
