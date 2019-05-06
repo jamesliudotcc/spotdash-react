@@ -17,9 +17,10 @@ function SimpleExpansionPanel(props: any) {
   return (
     <div className={classes.root}>
       <ExpansionPanel>
-        <ExpansionPanelSummary>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>Something</Typography>
         </ExpansionPanelSummary>
+        <ExpansionPanelDetails>Something More</ExpansionPanelDetails>
       </ExpansionPanel>
     </div>
   );
