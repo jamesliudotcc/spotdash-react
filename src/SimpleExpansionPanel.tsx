@@ -12,16 +12,16 @@ const styles = createStyles({
 });
 
 function SimpleExpansionPanel(props: any) {
-  const { classes } = props;
+  const { classes, location } = props;
 
   return (
     <div className={classes.root}>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>{props.props.name}</Typography>
+          <Typography>{location.name}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <p>{props.props.address}</p>
+          <p>{location.address}</p>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>

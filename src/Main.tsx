@@ -3,6 +3,15 @@ import axios from 'axios';
 
 import SimpleExpansionPanel from './SimpleExpansionPanel';
 
+interface LocationInfo {
+  name: string;
+  address: string;
+  nearest: number;
+  ratings: number;
+  categories: string[];
+  coordinates: { latitude: number; longitude: number };
+}
+
 export const Main: React.FC = () => {
   // Set offset, this is being used instead of setState.
   // Implements https://reactjs.org/docs/hooks-overview.html
@@ -19,18 +28,20 @@ export const Main: React.FC = () => {
         `http://localhost:3000/api/${offset}`
       );
 
-      const mapApiToProps = apiCallResult.data.data.map((location: any) => ({
-        name: location.name,
-        address: location.details.location.display_address.reduce(
-          (acc: string, line: string) => `${acc}, ${line}`
-        ),
-        nearest: location.distances[0].distance,
-        ratings: location.ratings,
-        categories: location.details.categories.map(
-          (category: { alias: string; title: string }) => category.title
-        ),
-        coordinates: location.details.coordinates,
-      }));
+      const mapApiToProps: LocationInfo = apiCallResult.data.data.map(
+        (location: any) => ({
+          name: location.name,
+          address: location.details.location.display_address.reduce(
+            (acc: string, line: string) => `${acc}, ${line}`
+          ),
+          nearest: location.distances[0].distance,
+          ratings: location.ratings,
+          categories: location.details.categories.map(
+            (category: { alias: string; title: string }) => category.title
+          ),
+          coordinates: location.details.coordinates,
+        })
+      );
 
       console.log(mapApiToProps);
       setData(mapApiToProps);
@@ -39,8 +50,8 @@ export const Main: React.FC = () => {
   }, [offset]);
 
   if (data) {
-    var collapsiblePanels = data.map((location: any, i: number) => {
-      return <SimpleExpansionPanel props={location} key={i} />;
+    var collapsiblePanels = data.map((location: LocationInfo, i: number) => {
+      return <SimpleExpansionPanel location={location} key={i} />;
     });
   }
 
@@ -49,7 +60,6 @@ export const Main: React.FC = () => {
       Offset: {offset}
       <button onClick={addOffset}>Add Offset</button>
       <button onClick={subtractOffset}>Subtract Offset</button>
-      {/* <p>{data ? JSON.stringify(data) : 'something went wrong'}</p> */}
       <div>{collapsiblePanels}</div>
     </div>
   );
